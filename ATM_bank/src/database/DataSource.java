@@ -6,6 +6,7 @@ import java.sql.*;
 
 public final class DataSource {
 
+    private static DataSource dataSource = null;
     private DataSource() {}
 
     private static String database = "", url = "", username = "", password = "";
@@ -14,7 +15,7 @@ public final class DataSource {
     private static PreparedStatement preparedStatement;
 
 
-    public static void getDataForConnectionDataBase() {
+    public void getDataForConnectionDataBase() {
         System.out.println("specify the type of database. (enter only one number)  : " + '\n' + "1.MYSQL " + '\t' + "2.ORACLE" + '\t' + "3.POSTGRESQL");
         url = getUrlByTypeDatabase(Input.getScanner().next());
 
@@ -137,8 +138,27 @@ public final class DataSource {
     }
 
     public static Connection getConnection() {
+        if (connection==null){
+
+        }
         return connection;
     }
-
+    public static DataSource getInstance() {
+        if (dataSource==null){
+            dataSource = new DataSource();
+            return dataSource;
+        }
+        try {
+            if (DataSource.getConnection().isClosed() || DataSource.getConnection()==null){
+                dataSource = new DataSource();
+                dataSource.getDataForConnectionDataBase();
+                return dataSource;
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException("create new connection failed ... ");
+        }
+        return dataSource;
+    }
 
 }
