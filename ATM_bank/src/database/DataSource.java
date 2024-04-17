@@ -7,12 +7,14 @@ import java.sql.*;
 public final class DataSource {
 
     private static DataSource dataSource = null;
-    private DataSource() {}
+
+    private DataSource() {
+    }
 
     private static String database = "", url = "", username = "", password = "";
 
     private static Connection connection = null;
-    private static PreparedStatement preparedStatement;
+    private PreparedStatement preparedStatement;
 
 
     public void getDataForConnectionDataBase() {
@@ -30,7 +32,7 @@ public final class DataSource {
 
     }
 
-    private static String getUrlByTypeDatabase(String typeDataBase) {
+    private String getUrlByTypeDatabase(String typeDataBase) {
         if (typeDataBase.equals("1") || typeDataBase.equalsIgnoreCase("MYSQL")) {
             database = "MYSQL";
             return "jdbc:mysql://localhost:3306/";
@@ -45,7 +47,7 @@ public final class DataSource {
         } else throw new RuntimeException("type database is not valid .... ");
     }
 
-    private static void connectionDatabaseByEntryValues(String databaseNameOrSID) {
+    private void connectionDatabaseByEntryValues(String databaseNameOrSID) {
         try {
             switch (database) {
                 case "MYSQL":
@@ -68,7 +70,7 @@ public final class DataSource {
         }
     }
 
-    private static void createConnectionToDataBase() {
+    private void createConnectionToDataBase() {
         try {
             connection = DriverManager.getConnection(url, username, password);
             System.out.println("connect database " + database + " ...");
@@ -78,7 +80,7 @@ public final class DataSource {
         }
     }
 
-    private static void createDatabaseIfNotExistsForMysqlAndPostgresql(String databaseName) {
+    private void createDatabaseIfNotExistsForMysqlAndPostgresql(String databaseName) {
         boolean checkIsPresentDatabase = false;
 
         createConnectionToDataBase();
@@ -123,7 +125,7 @@ public final class DataSource {
         }
     }
 
-    private static void checkCreateOrExistDatabaseInMySqlAndPostgresql(boolean checkIsPresentDatabase, String databaseName) {
+    private void checkCreateOrExistDatabaseInMySqlAndPostgresql(boolean checkIsPresentDatabase, String databaseName) {
         try {
             if (!checkIsPresentDatabase) {
                 String createDatabase = "create database " + databaseName;
@@ -138,27 +140,36 @@ public final class DataSource {
     }
 
     public static Connection getConnection() {
-        if (connection==null){
-
-        }
-        return connection;
-    }
-    public static DataSource getInstance() {
-        if (dataSource==null){
-            dataSource = new DataSource();
-            return dataSource;
-        }
         try {
-            if (DataSource.getConnection().isClosed() || DataSource.getConnection()==null){
-                dataSource = new DataSource();
-                dataSource.getDataForConnectionDataBase();
-                return dataSource;
+            if (connection == null || connection.isClosed()) {
+                getInstance().getDataForConnectionDataBase();
+                return connection;
             }
         }catch (Exception e){
             System.out.println(e.getMessage());
-            throw new RuntimeException("create new connection failed ... ");
+        }
+        return connection;
+    }
+
+    public static DataSource getInstance() {
+        if (dataSource == null) {
+            dataSource = new DataSource();
+            getConnection();
+            return dataSource;
         }
         return dataSource;
+    }
+
+    public void createAllTableIfNotExist(){
+        String queryCreateTableBank = "CREATE TABLE IF NOT EXISTS TBL_BANK " +
+                "(ID BIGINT PRIMARY KEY AUTO_INCREMENT , CREATE_DATE DATE , BANK_CODE INTEGER , BANK_NAME VARCHAR(40))";
+
+        try {
+            connection.prepareStatement(queryCreateTableBank).executeUpdate();
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
 }
