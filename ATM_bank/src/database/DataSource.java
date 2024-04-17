@@ -138,16 +138,25 @@ public final class DataSource {
     }
 
     public static Connection getConnection() {
+        if (connection==null){
+
+        }
         return connection;
     }
-    public static DataSource getInstance() throws SQLException {
+    public static DataSource getInstance() {
         if (dataSource==null){
             dataSource = new DataSource();
             return dataSource;
-        }else if (DataSource.getConnection().isClosed()){
-            dataSource = new DataSource();
-            dataSource.getDataForConnectionDataBase();
-            return dataSource;
+        }
+        try {
+            if (DataSource.getConnection().isClosed() || DataSource.getConnection()==null){
+                dataSource = new DataSource();
+                dataSource.getDataForConnectionDataBase();
+                return dataSource;
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException("create new connection failed ... ");
         }
         return dataSource;
     }
