@@ -3,6 +3,7 @@ package bank;
 import basicalClass.BaseDao;
 import database.DataSource;
 
+import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,8 @@ public class BankDao implements BaseDao<Bank> {
 
     @Override
     public Boolean save(Bank bank) {
-        String query = "INSERT INTO TBL_BANK(CREATE_DATE,BANK_CODE,BANK_NAME) VALUES (?,?,?)";
+        List<Field> listFields = bank.getListDeclaredFieldsInThisClassNotId();
+        String query = "INSERT INTO TBL_BANK("+bank.convertListFieldsToNameColumns(listFields)+") VALUES ("+bank.getNumOfBindVariableFromListField(listFields)+")";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setDate(1, new Date(new java.util.Date().getTime()));
