@@ -18,7 +18,7 @@ public class BasicInformationPerson<E extends Person> {
         return e;
     }
 
-    public void setE(E informationPerson) {
+    public void setValuesIntoEntity(E informationPerson) {
         informationPerson.setCreateDate(new Date());
         System.out.println("enter first name :");
         informationPerson.setFirstname(Input.getScanner().next());

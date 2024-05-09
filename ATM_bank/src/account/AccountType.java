@@ -1,5 +1,5 @@
 package account;
 
-public enum RolePerson {
+public enum AccountType {
     EMPLOYEE , CUSTOMER
 }

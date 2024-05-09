@@ -2,14 +2,12 @@ package account;
 
 import basicalClass.BaseEntity;
 
-import java.util.List;
-
 public class Account extends BaseEntity {
 
     private String username;
     private String password;
     private Boolean isActive;
-    private RolePerson rolePerson;
+    private AccountType accountType;
 
 
     public String getUsername() {
@@ -36,15 +34,15 @@ public class Account extends BaseEntity {
         isActive = active;
     }
 
-    public RolePerson getRolePerson() {
-        return rolePerson;
+    public AccountType getAccountType() {
+        return accountType;
     }
 
-    public void setRolePerson(String rolePerson) {
-        if (rolePerson.equalsIgnoreCase(RolePerson.CUSTOMER.name()))
-            this.rolePerson = RolePerson.CUSTOMER;
-        else if (rolePerson.equalsIgnoreCase(RolePerson.EMPLOYEE.name()))
-            this.rolePerson = RolePerson.EMPLOYEE;
+    public void setAccountType(String rolePerson) {
+        if (rolePerson.equalsIgnoreCase(AccountType.CUSTOMER.name()))
+            this.accountType = AccountType.CUSTOMER;
+        else if (rolePerson.equalsIgnoreCase(AccountType.EMPLOYEE.name()))
+            this.accountType = AccountType.EMPLOYEE;
         else
             throw new RuntimeException("role is not valid for person ... ");
     }
@@ -60,7 +58,7 @@ public class Account extends BaseEntity {
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", isActive=" + isActive +
-                ", rolePerson=" + rolePerson +
+                ", rolePerson=" + accountType +
                 '}';
     }
 

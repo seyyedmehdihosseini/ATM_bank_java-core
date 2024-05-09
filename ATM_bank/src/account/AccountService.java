@@ -1,5 +1,6 @@
 package account;
 
+import employee.Employee;
 import input.Input;
 
 import java.util.Date;
@@ -9,7 +10,7 @@ public class AccountService {
     private static final AccountDao accountDao = new AccountDao();
 
 
-    public static Account createAccountForPerson(RolePerson rolePerson , String uniqueCodeOrNationalCode ){
+    public static Account createAccountForPerson(AccountType accountType, String uniqueCodeOrNationalCode ){
         Account account = new Account();
 
         account.setUsername(uniqueCodeOrNationalCode);
@@ -17,12 +18,12 @@ public class AccountService {
         account.setPassword(Input.getScanner().next());
         account.setActive(true);
         account.setCreateDate(new Date());
-        account.setRolePerson(rolePerson.name());
+        account.setAccountType(accountType.name());
 
         if (accountDao.save(account))
             return accountDao.getAccountByUsername(account.getUsername());
 
-        return null;
+        throw new RuntimeException("create new account failed ... .");
     }
 
 
@@ -37,7 +38,7 @@ public class AccountService {
                 System.out.println("enter password : ");
                 String password = Input.getScanner().next();
                 if (accountPerson.getPassword().equals(password)){
-                    if (accountPerson.getRolePerson().equals(RolePerson.EMPLOYEE)){
+                    if (accountPerson.getAccountType().equals(AccountType.EMPLOYEE)){
 
                     }else {
 

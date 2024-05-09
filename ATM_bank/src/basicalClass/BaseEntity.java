@@ -48,7 +48,7 @@ public abstract class BaseEntity {
     }
 
     public String convertFieldToNameColumn(Field field) {
-        return getNameColumnFromNameField(field.getName());
+        return getNameColumnFromNameField(field.getName()).toUpperCase();
     }
 
     private String getNameColumnFromNameField(String fieldName) {
