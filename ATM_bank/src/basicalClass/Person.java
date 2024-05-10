@@ -1,5 +1,7 @@
 package basicalClass;
 
+import entity.BaseEntity;
+
 public abstract class Person extends BaseEntity {
 
     private String firstname;

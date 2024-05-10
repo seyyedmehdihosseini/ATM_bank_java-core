@@ -1,6 +1,6 @@
 package bank;
 
-import basicalClass.BaseDaoImpl;
+import dao.BaseDaoImpl;
 
 public class BankDao extends BaseDaoImpl<Bank> {
     public BankDao(Class<Bank> entityClass) {

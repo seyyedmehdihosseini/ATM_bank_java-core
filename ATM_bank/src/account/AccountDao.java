@@ -1,6 +1,6 @@
 package account;
 
-import basicalClass.BaseDaoImpl;
+import dao.BaseDaoImpl;
 
 import java.sql.PreparedStatement;
 import java.util.List;

@@ -1,6 +1,6 @@
 package bank;
 
-import basicalClass.BaseEntity;
+import entity.BaseEntity;
 
 public class Bank extends BaseEntity {
 

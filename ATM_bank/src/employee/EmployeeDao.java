@@ -1,7 +1,7 @@
 package employee;
 
 import account.Account;
-import basicalClass.BaseDaoImpl;
+import dao.BaseDaoImpl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

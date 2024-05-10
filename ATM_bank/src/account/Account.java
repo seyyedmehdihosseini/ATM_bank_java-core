@@ -1,6 +1,6 @@
 package account;
 
-import basicalClass.BaseEntity;
+import entity.BaseEntity;
 
 public class Account extends BaseEntity {
 
