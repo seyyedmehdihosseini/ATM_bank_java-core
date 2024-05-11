@@ -3,7 +3,6 @@ package bank;
 import input.Input;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class BankService {
     private static final BankDao bankDao = new BankDao();
@@ -13,7 +12,8 @@ public class BankService {
 
         while (checkBack) {
             System.out.println('\n' + "select one operation (enter just number) ");
-            System.out.println("1.create bank" + '\t' + "2.get bank by id" + '\t' + "3.get all Bank" + '\t' + "4.delete bank By id" + "\t\t" + "5.back");
+            System.out.println("1.create bank" + '\t' + "2.get bank by id" + '\t' + "3.get all Bank" + '\t'
+                    + "4.delete bank By id" + "\t\t" +"5.get bank By bank code"+ "\t\t" + "6.back");
             int selectOperation = Input.getScanner().nextInt();
             switch (selectOperation) {
                 case 1:
@@ -27,8 +27,7 @@ public class BankService {
                         System.out.println("create new Bank ....");
                     break;
                 case 2:
-                    System.out.println("enter id Bank :");
-                    Bank getBankById = bankDao.getById(Input.getScanner().nextLong());
+                    Bank getBankById = bankDao.getById((Long) Input.getInput("enter id Bank :",Long.class));
                     System.out.println(getBankById);
                     break;
                 case 3:
@@ -36,8 +35,7 @@ public class BankService {
                     System.out.println(listBank);
                     break;
                 case 4:
-                    System.out.println("enter id Bank :");
-                    long idBankForDelete = Input.getScanner().nextLong();
+                    long idBankForDelete = (Long) Input.getInput("enter id Bank :",Long.class);
                     Boolean checkDelete = bankDao.deleteById(idBankForDelete);
                     if (checkDelete)
                         System.out.println("bank with id " + idBankForDelete + " was deleted .");
@@ -45,6 +43,13 @@ public class BankService {
                         System.out.println("delete with id " + idBankForDelete + "failed ...");
                     break;
                 case 5:
+                    List<Bank> bankCode = bankDao.getByProperty("bankCode", (Integer) Input.getInput("enter bank code :", Integer.class));
+                    if (!bankCode.isEmpty())
+                        System.out.println(bankCode.get(0));
+                    else
+                        System.out.println("bank code is not found ... ");
+                    break;
+                case 6:
                     checkBack = false;
                     break;
                 default:
@@ -52,7 +57,6 @@ public class BankService {
                     break;
             }
         }
-
     }
 
 }
